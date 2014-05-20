@@ -19,8 +19,8 @@ module.exports = function(grunt) {
         }),
         file_ext = /\.+(php|html|htm)/gi,
         index = '',
-        index_list = [[]],
-        index_group_name = ['기타'];
+        index_list = [[],[]],
+        index_group_name = ['기타', '공통'];
 
     grunt.file.recurse(options.src, function(abspath, rootdir, subdir, filename){
       if(filename.match(file_ext) !== null && !grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
@@ -69,8 +69,14 @@ module.exports = function(grunt) {
         index_list.push(new Array());
       }
 
-      if(get_title !== null) index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
-      else index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null){
+        if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+      }else if(get_title !== null){
+        index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+      }else{
+        index_list[0].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+      }
     }
 
     function output_file(){
@@ -79,19 +85,25 @@ module.exports = function(grunt) {
           get_con = '',
           dest = '';
 
+      //공통 파일 그룹 없을때 배열 삭제
+      if(index_list[1].length === 0){
+        index_group_name.splice(1, 1);
+        index_list.splice(1, 1);
+      }
+
       index_group_name.reverse();
       index_list.reverse();
 
       for(var group in index_group_name){
-        html += '<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
-        html += '<ul>\r\n';
+        if(index_group_name.length > 1) html += '\r\n\t\t<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
+        html += '\t\t<ul>\r\n';
 
         for(var lst in index_list[group]){
           get_con = index_list[group][lst].split('_$$_');
-          html += '<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+          html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
         }
 
-        html += '</ul>\r\n';
+        html += '\t\t</ul>\r\n';
       }
 
       //dest 처리
@@ -108,5 +120,6 @@ module.exports = function(grunt) {
 
       done();
     }
+
   });
 };

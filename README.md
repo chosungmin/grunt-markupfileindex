@@ -17,7 +17,9 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-nts-uit-index');
 ```
 
-## 타이틀을 가져오는 HTML, PHP 코드 안내
+## 파일 처리 안내
+
+### 타이틀을 가져오는 HTML, PHP 코드 안내
 ```html
 <title>[그룹명] 타이틀명</title>
 <title>타이틀명</title>
@@ -31,6 +33,9 @@ grunt.loadNpmTasks('grunt-nts-uit-index');
 &lt;? $pageTitle = '...' ?&gt; 해당되는 텍스트 값을 가져옴
 
 html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출력
+
+### 공통 그룹 처리 안내
+파일명에 _incl, incl_, _inc, inc_ 가 들어가 있다면 공통 파일 그룹으로 처리
 
 ## The "uit_index" task
 
