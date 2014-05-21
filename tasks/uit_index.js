@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         options = this.options({
           src: this.src || null,
           filename: this.filename || '@index.html',
-          exclusions: this.exclusions || []
+          exclusions: this.exclusions || ['**/@index.html']
         }),
         file_ext = /\.+(php|html|htm)/gi,
         index = '',
