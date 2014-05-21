@@ -19,20 +19,19 @@ module.exports = function(grunt) {
           exclusions: this.exclusions || ['**/@index.html']
         }),
         file_ext = /\.+(php|html|htm)$/gi,
-        index = '',
         index_list = [[],[]],
         index_group_name = ['기타', '공통'];
 
     grunt.file.recurse(options.src, function(abspath, rootdir, subdir, filename){
       if(filename.match(file_ext) !== null && !grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
-        get_title(abspath, subdir, filename);
+        get_title_func(abspath, subdir, filename);
       }
     });
 
-    output_file(index);
+    output_file_func();
 
     //title 값 가져오기
-    function get_title(abspath, subdir, filename){
+    function get_title_func(abspath, subdir, filename){
       var file_content = grunt.file.read(abspath),
           get_title = '',
           file_group = '';
@@ -80,7 +79,7 @@ module.exports = function(grunt) {
       }
     }
 
-    function output_file(){
+    function output_file_func(){
       var tpl = grunt.file.read(__dirname + '/../tpl/tpl.html'),
           html = '',
           get_con = '',
