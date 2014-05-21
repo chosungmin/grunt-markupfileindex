@@ -16,7 +16,7 @@ module.exports = function(grunt) {
           src: this.src || null,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
-          exclusions: this.exclusions || []
+          exclusions: this.exclusions || ['**/@index.html']
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         index = '',
