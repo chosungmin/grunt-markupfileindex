@@ -15,6 +15,7 @@ module.exports = function(grunt) {
         options = this.options({
           src: this.src || null,
           filename: this.filename || '@index.html',
+          title: this.title || '마크업 산출물',
           exclusions: this.exclusions || []
         }),
         file_ext = /\.+(php|html|htm)$/gi,
@@ -108,7 +109,7 @@ module.exports = function(grunt) {
       
       dest = path.join(options.src, options.filename);
       
-      grunt.file.write(dest, tpl.replace('[[html]]', html));
+      grunt.file.write(dest, tpl.replace('[[html]]', html).replace('[[title]]', options.title));
       console.log(dest + ' 파일 인덱스 생성 완료');
 
       done();

@@ -49,6 +49,7 @@ grunt.initConfig({
         options: {
           src: './src/',
           // filename: '@index_list.html',
+          // title:'테스트 마크업 산출물',
           exclusions: ['**/@index.html', '**/node_modules/**/*']
         }
       }
@@ -70,6 +71,12 @@ Default value: `'@index.html'`
 
 options.src 폴더에 저장할 인덱스 파일명 지정 
 지정하지 않을시 '@index.html' 파일 생성
+
+#### options.title
+Type: `String`
+Default value: `'마크업 산출물'`
+
+인덱스 파일 타이틀 지정
 
 #### options.exclusions
 Type: `Array`
