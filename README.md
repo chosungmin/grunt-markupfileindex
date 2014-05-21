@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/blob/master/grunt-nts-uit-index-0.1.0.tgz --save-dev
+npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.0.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
