@@ -42,13 +42,27 @@ html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출�
 ### Overview
 In your project's Gruntfile, add a section named `uit_index` to the data object passed into `grunt.initConfig()`.
 
+#### Short
+```js
+grunt.initConfig({
+  uit_index: {
+      index: {
+        options: {
+          src: 'src/'
+        }
+      }
+    }
+});
+```
+
+#### Medium (specific targets with filename)
 ```js
 grunt.initConfig({
   uit_index: {
       index: {
         options: {
           src: './src/',
-          // filename: '@index_list.html',
+          filename: '@index.html',
           exclusions: ['**/@index.html']
         }
       }
