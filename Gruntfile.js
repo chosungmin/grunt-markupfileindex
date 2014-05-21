@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         options: {
           src: './test/',
           //filename: '',
-          exclusions: ['**/@index.html']
+          exclusions: ['**/@index.html', '**/node_modules/**/*']
         }
       }
     }

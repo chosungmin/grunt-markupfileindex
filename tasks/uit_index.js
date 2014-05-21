@@ -17,7 +17,7 @@ module.exports = function(grunt) {
           filename: this.filename || '@index.html',
           exclusions: this.exclusions || []
         }),
-        file_ext = /\.+(php|html|htm)/gi,
+        file_ext = /\.+(php|html|htm)$/gi,
         index = '',
         index_list = [[],[]],
         index_group_name = ['기타', '공통'];
