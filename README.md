@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.0.tgz --save-dev
+npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.2.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -63,7 +63,8 @@ grunt.initConfig({
         options: {
           src: './src/',
           filename: '@index.html',
-          exclusions: ['**/@index.html']
+          title:'테스트 마크업 산출물',
+          exclusions: ['**/@index.html', '**/node_modules/**/*']
         }
       }
     }
@@ -84,6 +85,12 @@ Default value: `'@index.html'`
 
 options.src 폴더에 저장할 인덱스 파일명 지정 
 지정하지 않을시 '@index.html' 파일 생성
+
+#### options.title
+Type: `String`
+Default value: `'마크업 산출물'`
+
+인덱스 파일 타이틀 지정
 
 #### options.exclusions
 Type: `Array`

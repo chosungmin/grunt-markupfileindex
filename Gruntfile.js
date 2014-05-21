@@ -14,8 +14,9 @@ module.exports = function(grunt) {
       index: {
         options: {
           src: './test/',
-          //filename: '',
-          exclusions: ['**/@index.html']
+          // filename: '',
+          // title:'테스트 마크업 산출물',
+          exclusions: ['**/@index.html', '**/node_modules/**/*']
         }
       }
     }
