@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         path = require('path'),
         options = this.options({
           src: this.src || null,
-          dest: this.dest || null,
+          filename: this.filename || '@index.html',
           exclusions: this.exclusions || []
         }),
         file_ext = /\.+(php|html|htm)/gi,
@@ -105,15 +105,8 @@ module.exports = function(grunt) {
 
         html += '\t\t</ul>\r\n';
       }
-
-      //dest 처리
-      if(options.dest === null){
-        dest = path.join(options.src, '@index.html');
-      }else if(options.dest !== null && options.dest.match(/\.+(php|html|htm)/gi) !== null){
-        dest = options.dest;
-      }else{
-        grunt.fail.fatal('옵션의 dest 변수에 파일명까지 입력해 주세요');
-      }
+      
+      dest = path.join(options.src, options.filename);
       
       grunt.file.write(dest, tpl.replace('[[html]]', html));
       console.log(dest + ' 파일 인덱스 생성 완료');

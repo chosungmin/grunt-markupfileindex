@@ -48,7 +48,7 @@ grunt.initConfig({
       index: {
         options: {
           src: './src/',
-          // dest: 'etc/@index.html',
+          // filename: '@index_list.html',
           exclusions: ['**/@index.html']
         }
       }
@@ -64,16 +64,16 @@ Default value: `''`
 
 파일 리스트 작성에 필요한 파일이 있는 폴더 지정
 
-#### options.dest
+#### options.filename
 Type: `String`
-Default value: `''`
+Default value: `'@index.html'`
 
-options.src에서 읽어들인 파일 리스트를 저장할 폴더 및 파일명 지정  
-dest를 지정하지 않을시 options.src 폴더에 '@index.html' 파일 생성
+options.src 폴더에 저장할 인덱스 파일명 지정 
+지정하지 않을시 '@index.html' 파일 생성
 
 #### options.exclusions
-Type: `String`
-Default value: `''`
+Type: `Array`
+Default value: `[]`
 
 제외할 폴더 및 파일을 [minimatch](https://github.com/isaacs/minimatch) 형식으로 입력  
 예)['\*.php', '\*\*/tmp/\*', '@\*.\*']
