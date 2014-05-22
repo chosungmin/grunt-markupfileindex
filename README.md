@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.2.tgz --save-dev
+npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.3.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -18,6 +18,8 @@ grunt.loadNpmTasks('grunt-nts-uit-index');
 ```
 
 ## 파일 처리 안내
+**'UTF-8'로 작성된 파일에 대해서만 정상 작동하며,**  
+**'EUC-KR'로 작성된 파일은 문자셋 인코딩 문제로 인덱스 리스트 추가시 타이틀 부분을 파일명으로 처리합니다.**
 
 ### 타이틀을 가져오는 HTML, PHP 코드 안내
 ```html
@@ -35,7 +37,7 @@ grunt.loadNpmTasks('grunt-nts-uit-index');
 html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출력
 
 ### 공통 그룹 처리 안내
-파일명에 _incl, incl_, _inc, inc_ 가 들어가 있다면 공통 파일 그룹으로 처리
+파일명에 \_incl, incl\_, \_inc, inc\_ 가 들어가 있다면 공통 파일 그룹으로 처리
 
 ## The "uit_index" task
 
@@ -94,7 +96,7 @@ Default value: `'마크업 산출물'`
 
 #### options.exclusions
 Type: `Array`
-Default value: `[]`
+Default value: `['**/options.filename', '**/node_modules/**/*']`
 
 제외할 폴더 및 파일을 [minimatch](https://github.com/isaacs/minimatch) 형식으로 입력  
 예)['\*.php', '\*\*/tmp/\*', '@\*.\*']

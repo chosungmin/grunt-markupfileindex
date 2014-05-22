@@ -1,0 +1,206 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman',
+              "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:12px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+span.backtick {
+  border:1px solid #EAEAEA;
+  border-radius:3px;
+  background:#F8F8F8;
+  padding:0 3px 0 3px;
+}
+
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+
+p{
+margin:1em 0;
+}
+
+img{
+max-width:100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+font-weight:normal;
+color:#111;
+line-height:1em;
+}
+h4,h5,h6{ font-weight: bold; }
+h1{ font-size:2.5em; }
+h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
+h3{ font-size:1.5em; }
+h4{ font-size:1.2em; }
+h5{ font-size:1em; }
+h6{ font-size:0.9em; }
+
+blockquote{
+color:#666666;
+margin:0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+
+
+pre , code, kbd, samp { 
+  color: #000; 
+  font-family: monospace; 
+  font-size: 0.88em; 
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC; 
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px 12px;}
+pre code { border: 0px !important; padding: 0;}
+code { padding: 0 3px 0 3px; }
+
+b, strong { font-weight: bold; }
+
+dfn { font-style: italic; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+body{font-size:14px;}
+}
+
+@media only screen and (min-width: 768px) {
+body{font-size:16px;}
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
+  body{font-size:12pt; max-width:100%; outline:none;}
+  a, a:visited { text-decoration: underline; }
+  hr { height: 1px; border:0; border-bottom:1px solid black; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style><title>README</title></head><body><h1 id="grunt-nts-uit-index">grunt-nts-uit-index</h1>
+<blockquote>
+<p>grunt nts uit index</p>
+</blockquote>
+<h2 id="getting-started">Getting Started</h2>
+<p>This plugin requires Grunt <code>~0.4.4</code></p>
+<p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before, be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide, as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:</p>
+<pre><code class="shell">npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.2.tgz --save-dev
+</code></pre>
+
+<p>Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:</p>
+<pre><code class="js">grunt.loadNpmTasks('grunt-nts-uit-index');
+</code></pre>
+
+<h2 id="파일-처리-안내">파일 처리 안내</h2>
+<p><strong>'UTF-8'로 작성된 파일에 대해서만 정상 작동하며,</strong><br />
+<strong>'EUC-KR'로 작성된 파일은 문자셋 인코딩 문제로 인덱스 리스트 추가시 타이틀 부분을 파일명으로 처리합니다.</strong></p>
+<h3 id="타이틀을-가져오는-html-php-코드-안내">타이틀을 가져오는 HTML, PHP 코드 안내</h3>
+<pre><code class="html">&lt;title&gt;[그룹명] 타이틀명&lt;/title&gt;
+&lt;title&gt;타이틀명&lt;/title&gt;
+</code></pre>
+
+<p>&lt;title&gt; 값을 읽어 옴</p>
+<pre><code class="php">&lt;?php $pageTitle='[그룹명] 타이틀명';include '00_header_incl.php'; ?&gt;
+&lt;?php $pageTitle='타이틀명';include '00_header_incl.php'; ?&gt;
+</code></pre>
+
+<p>&lt;? $pageTitle = '...' ?&gt; 해당되는 텍스트 값을 가져옴</p>
+<p>html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출력</p>
+<h3 id="공통-그룹-처리-안내">공통 그룹 처리 안내</h3>
+<p>파일명에 _incl, incl_, _inc, inc_ 가 들어가 있다면 공통 파일 그룹으로 처리</p>
+<h2 id="the-uit-index-task">The "uit_index" task</h2>
+<h3 id="overview">Overview</h3>
+<p>In your project's Gruntfile, add a section named <code>uit_index</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+<h4 id="short">Short</h4>
+<pre><code class="js">grunt.initConfig({
+  uit_index: {
+      index: {
+        options: {
+          src: 'src/'
+        }
+      }
+    }
+});
+</code></pre>
+
+<h4 id="medium-specific-targets-with-filename">Medium (specific targets with filename)</h4>
+<pre><code class="js">grunt.initConfig({
+  uit_index: {
+      index: {
+        options: {
+          src: './src/',
+          filename: '@index.html',
+          title:'테스트 마크업 산출물',
+          exclusions: ['**/@index.html', '**/node_modules/**/*']
+        }
+      }
+    }
+});
+</code></pre>
+
+<h3 id="options">Options</h3>
+<h4 id="options-src">options.src</h4>
+<p>Type: <code>String</code>
+Default value: <code>''</code></p>
+<p>파일 리스트 작성에 필요한 파일이 있는 폴더 지정</p>
+<h4 id="options-filename">options.filename</h4>
+<p>Type: <code>String</code>
+Default value: <code>'@index.html'</code></p>
+<p>options.src 폴더에 저장할 인덱스 파일명 지정 
+지정하지 않을시 '@index.html' 파일 생성</p>
+<h4 id="options-title">options.title</h4>
+<p>Type: <code>String</code>
+Default value: <code>'마크업 산출물'</code></p>
+<p>인덱스 파일 타이틀 지정</p>
+<h4 id="options-exclusions">options.exclusions</h4>
+<p>Type: <code>Array</code>
+Default value: <code>['**/options.filename', '**/node_modules/**/*']</code></p>
+<p>제외할 폴더 및 파일을 <a href="https://github.com/isaacs/minimatch">minimatch</a> 형식으로 입력<br />
+예)['*.php', '**/tmp/*', '@*.*']</p>
+<h2 id="contributing">Contributing</h2>
+<p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
+<h2 id="release-history">Release History</h2>
+<p>0.1.0 : 베타 릴리즈</p></body></html>

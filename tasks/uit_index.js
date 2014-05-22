@@ -8,6 +8,8 @@
 
 'use strict';
 
+var chardet = require('chardet');
+
 module.exports = function(grunt) {
   grunt.registerMultiTask('uit_index', 'grunt nts uit index', function() {
     var done = this.async(),
@@ -16,11 +18,14 @@ module.exports = function(grunt) {
           src: this.src || null,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
-          exclusions: this.exclusions || ['**/@index.html']
+          exclusions: this.exclusions || []
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         index_list = [[],[]],
         index_group_name = ['기타', '공통'];
+
+    options.exclusions.push('**/' + options.filename);
+    options.exclusions.push('**/node_modules/**/*');
 
     grunt.file.recurse(options.src, function(abspath, rootdir, subdir, filename){
       if(filename.match(file_ext) !== null && !grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
@@ -34,12 +39,13 @@ module.exports = function(grunt) {
     function get_title_func(abspath, subdir, filename){
       var file_content = grunt.file.read(abspath),
           get_title = '',
-          file_group = '';
+          file_group = '',
+          org_abspath = abspath;
 
       abspath = (subdir !== undefined) ? subdir + '/' + filename : filename ;
 
       //html 문법에서 title값 찾기
-      get_title = file_content.match(/<title>.*<\/title>/gi); 
+      get_title = file_content.match(/<title>.*<\/title>/gi);
 
       if(get_title !== null){
         get_title = get_title[0].replace(/[<|<\/]+title>/gi,'');
@@ -64,11 +70,16 @@ module.exports = function(grunt) {
         file_group = index_group_name[0];
       }
 
+      //파일 그룹 추가
       if(file_group !== '' && index_group_name.indexOf(file_group) === -1){
         index_group_name.push(file_group);
         index_list.push(new Array());
       }
 
+      //문자셋이 EUC-KR일 때 문자 깨짐 현상 임시 처리
+      if(chardet.detectFileSync(org_abspath) === 'EUC-KR') get_title = null;
+
+      //공통 그룹 파일 구분 및 일반 파일 추가
       if(filename.match(/_incl|incl_|_inc|inc_/g) !== null){
         if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
         else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
@@ -79,6 +90,7 @@ module.exports = function(grunt) {
       }
     }
 
+    //인덱스 파일 생
     function output_file_func(){
       var tpl = grunt.file.read(__dirname + '/../tpl/tpl.html'),
           html = '',
