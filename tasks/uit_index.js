@@ -21,18 +21,30 @@ module.exports = function(grunt) {
           exclusions: this.exclusions || []
         }),
         file_ext = /\.+(php|html|htm)$/gi,
+        folder_name = /css|img|im/i,
         index_list = [[],[]],
-        index_group_name = ['기타', '공통'];
+        index_group_name = ['기타', '공통'],
+        folder_download = ['#'],
+        tmp = null;
 
     options.exclusions.push('**/' + options.filename);
     options.exclusions.push('**/node_modules/**/*');
+    options.exclusions.push('**/node_modules/**/.*');
+    options.exclusions.push('**/.*/**/*');
+    options.exclusions.push('**/.*/**/.*');
 
     grunt.file.recurse(options.src, function(abspath, rootdir, subdir, filename){
+      //다운로드 폴더 추가(최상위 폴더만...)
+      if(!grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
+        tmp = ('/'+subdir).split('/');
+        if(grunt.file.isDir(rootdir+subdir) && tmp[1].match(folder_name) !== null && folder_download.indexOf(tmp[1]) === -1) folder_download.push(tmp[1]);
+      }
+
+      //파일 인덱스 리스트 추가
       if(filename.match(file_ext) !== null && !grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
         get_title_func(abspath, subdir, filename);
-      }
+      }      
     });
-
     output_file_func();
 
     //title 값 가져오기
@@ -94,6 +106,7 @@ module.exports = function(grunt) {
     function output_file_func(){
       var tpl = grunt.file.read(__dirname + '/../tpl/tpl.html'),
           html = '',
+          download = '',
           get_con = '',
           dest = '';
 
@@ -106,8 +119,19 @@ module.exports = function(grunt) {
       index_group_name.reverse();
       index_list.reverse();
 
+      //다운로드 폴더 리스트 처리
+      download += '\t\t<ul>\r\n';
+      for(var folder in folder_download){
+        if(folder_download[folder] === '#') download += '\t\t<li><a href="">전체</a></li>\r\n';
+        else download += '\t\t<li><a href="' + folder_download[folder] + '">' + folder_download[folder] + '</a></li>\r\n';
+      }
+      download += '\t\t</ul>\r\n';
+
+      //파일 인덱스 리스트 처리
       for(var group in index_group_name){
         if(index_group_name.length > 1) html += '\r\n\t\t<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
+        else html += '\r\n\t\t<h2 class="sec_h">파일 리스</h2>\r\n';
+
         html += '\t\t<ul>\r\n';
 
         for(var lst in index_list[group]){
@@ -120,7 +144,7 @@ module.exports = function(grunt) {
       
       dest = path.join(options.src, options.filename);
       
-      grunt.file.write(dest, tpl.replace('[[html]]', html).replace('[[title]]', options.title));
+      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace('[[title]]', options.title));
       console.log(dest + ' 파일 인덱스 생성 완료');
 
       done();
