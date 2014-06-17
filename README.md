@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.4.tgz --save-dev
+npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.5.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -64,6 +64,7 @@ grunt.initConfig({
       index: {
         options: {
           src: './src/',
+          show_date : true,
           filename: '@index.html',
           title:'테스트 마크업 산출물',
           exclusions: ['**/@index.html', '**/node_modules/**/*']
@@ -80,6 +81,12 @@ Type: `String`
 Default value: `''`
 
 파일 리스트 작성에 필요한 파일이 있는 폴더 지정
+
+#### options.show_date
+Type : `Boolean`
+Default value: `false`
+
+인덱스 파일 생성일자 출력 여부 선택
 
 #### options.filename
 Type: `String`

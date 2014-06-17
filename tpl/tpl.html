@@ -31,9 +31,10 @@ a{color:#000;text-decoration:none}
 .u_vc{position:absolute;*left:-9999em;z-index:-1;font-size:4px;line-height:1px;color:transparent}
 
 body{position:relative;padding:0 14px;background-color:#fff;color:#000;word-wrap:break-word;-webkit-text-size-adjust:none}
-header{padding:1em 4em .9em .1em;border-bottom:3px solid #222}
+header{padding:1em .1em .9em .1em;border-bottom:3px solid #222}
 .hd_h1{font-size:1.2em}
-h1{padding:2em .1em .4em}
+h1{position:relative;padding:2em .1em .4em}
+h1 span{position:absolute;right:0}
 .sec_h{clear:both;padding:2em .1em .4em;border-bottom:1px solid #000;font-size:1em}
 ul{font-size:.9em}
 li{border-bottom:1px solid #dfdfdf}
@@ -60,7 +61,7 @@ document.createElement("footer");
 <body>
 
 <header role="banner">
-	<h1 class="hd_h1">마크업 산출물</h1>
+	<h1 class="hd_h1">마크업 산출물 [[date]]</h1>
 </header>
 
 <article id="ct">

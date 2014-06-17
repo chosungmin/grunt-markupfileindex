@@ -1,6 +1,6 @@
 {
   "name": "grunt-nts-uit-index",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "grunt nts uit index",
   "main": "Gruntfile.js",
   "directories": {

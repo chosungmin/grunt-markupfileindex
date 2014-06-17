@@ -14,6 +14,7 @@ module.exports = function(grunt) {
       index: {
         options: {
           src: './test/',
+          show_date : true,
           // filename: '',
           // title:'테스트 마크업 산출물',
           // exclusions: []

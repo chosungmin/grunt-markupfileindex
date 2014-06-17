@@ -16,6 +16,7 @@ module.exports = function(grunt) {
         path = require('path'),
         options = this.options({
           src: this.src || null,
+          show_date: this.show_date || false,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
           exclusions: this.exclusions || []
@@ -108,7 +109,9 @@ module.exports = function(grunt) {
           html = '',
           download = '',
           get_con = '',
-          dest = '';
+          dest = '',
+          d = new Date(),
+          creation_date = '';
 
       //공통 파일 그룹 없을때 배열 삭제
       if(index_list[1].length === 0){
@@ -130,7 +133,7 @@ module.exports = function(grunt) {
       //파일 인덱스 리스트 처리
       for(var group in index_group_name){
         if(index_group_name.length > 1) html += '\r\n\t\t<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
-        else html += '\r\n\t\t<h2 class="sec_h">파일 리스</h2>\r\n';
+        else html += '\r\n\t\t<h2 class="sec_h">파일 리스트</h2>\r\n';
 
         html += '\t\t<ul>\r\n';
 
@@ -143,8 +146,12 @@ module.exports = function(grunt) {
       }
       
       dest = path.join(options.src, options.filename);
+
+      if(options.show_date === true){
+          creation_date = '<span>(생성일 : ' + d.getFullYear() + '년 ' + d.getMonth() + '월' + d.getDate() + '일 ' + d.getHours() + '시 ' + d.getMinutes() + '분' +')</span>';
+      }
       
-      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace('[[title]]', options.title));
+      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace('[[title]]', options.title).replace('[[date]]', creation_date));
       console.log(dest + ' 파일 인덱스 생성 완료');
 
       done();
