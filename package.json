@@ -1,6 +1,6 @@
 {
   "name": "grunt-nts-uit-index",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "grunt nts uit index",
   "main": "Gruntfile.js",
   "directories": {
@@ -11,7 +11,9 @@
     "chardet": "0.0.8"
   },
   "devDependencies": {},
-  "scripts": {},
+  "scripts": {
+    "postinstall": "npm install --prefix node_modules/grunt/node_modules iconv-lite@0.4.4 --save-dev"
+  },
   "repository": {
     "type": "git",
     "url": "http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index.git"

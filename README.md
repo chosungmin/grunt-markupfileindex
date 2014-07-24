@@ -17,10 +17,6 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-nts-uit-index');
 ```
 
-## 파일 처리 안내
-**'UTF-8'로 작성된 파일에 대해서만 정상 작동하며,**  
-**'EUC-KR'로 작성된 파일은 문자셋 인코딩 문제로 인덱스 리스트 추가시 타이틀 부분을 파일명으로 처리합니다.**
-
 ### 타이틀을 가져오는 HTML, PHP 코드 안내
 ```html
 <title>[그룹명] 타이틀명</title>

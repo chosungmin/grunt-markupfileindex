@@ -51,10 +51,14 @@ module.exports = function(grunt) {
 
     //title 값 가져오기
     function get_title_func(abspath, subdir, filename){
-      var file_content = grunt.file.read(abspath),
-          get_title = '',
-          file_group = '',
-          org_abspath = abspath;
+      if(chardet.detectFileSync(abspath) === 'EUC-KR'){
+        var file_content = grunt.file.read(abspath, {encoding: 'euc-kr'});
+      }else{
+        var file_content = grunt.file.read(abspath);
+      }
+      
+      var get_title = '',
+          file_group = '';
 
       abspath = (subdir !== undefined) ? subdir + '/' + filename : filename ;
 
@@ -89,15 +93,6 @@ module.exports = function(grunt) {
         index_group_name.push(file_group);
         index_list.push(new Array());
       }
-
-      //문자셋이 EUC-KR일 때 문자 깨짐 현상 임시 처리
-      if(chardet.detectFileSync(org_abspath) === 'EUC-KR') get_title = null;
-
-      //공통 그룹 파일 구분 및 일반 파일 추가
-      
-      // console.log('options.include_folder : ' + find(abspath, options.include_folder) );
-      // find(abspath, options.include_folder);
-
 
       if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, options.include_folder) === true){
         if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
