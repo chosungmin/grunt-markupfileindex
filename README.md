@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-0.1.5.tgz --save-dev
+npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/grunt-nts-uit-index-최신버전정보.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -38,6 +38,7 @@ html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출�
 
 ### 공통 그룹 처리 안내
 파일명에 \_incl, incl\_, \_inc, inc\_ 가 들어가 있다면 공통 파일 그룹으로 처리
+옵션 항목 중 'include_folder' 항목을 지정
 
 ## The "uit_index" task
 
@@ -67,7 +68,8 @@ grunt.initConfig({
           show_date : true,
           filename: '@index.html',
           title:'테스트 마크업 산출물',
-          exclusions: ['**/@index.html', '**/node_modules/**/*']
+          exclusions: ['**/@index.html', '**/node_modules/**/*'],
+          include_folder : ['includes']
         }
       }
     }
@@ -108,8 +110,9 @@ Default value: `['**/options.filename', '**/node_modules/**/*']`
 제외할 폴더 및 파일을 [minimatch](https://github.com/isaacs/minimatch) 형식으로 입력  
 예)['\*.php', '\*\*/tmp/\*', '@\*.\*']
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+#### options.include_folder
+Type: `Array`
+Default value: `[]`
 
-## Release History
-0.1.0 : 베타 릴리즈
+공통 파일이 들어 있는 폴더 입력
+예)['includes', 'inc']

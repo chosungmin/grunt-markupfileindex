@@ -19,7 +19,8 @@ module.exports = function(grunt) {
           show_date: this.show_date || false,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
-          exclusions: this.exclusions || []
+          exclusions: this.exclusions || [],
+          include_folder: this.include_folder || []
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         folder_name = /css|img|im/i,
@@ -93,7 +94,12 @@ module.exports = function(grunt) {
       if(chardet.detectFileSync(org_abspath) === 'EUC-KR') get_title = null;
 
       //공통 그룹 파일 구분 및 일반 파일 추가
-      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null){
+      
+      // console.log('options.include_folder : ' + find(abspath, options.include_folder) );
+      // find(abspath, options.include_folder);
+
+
+      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, options.include_folder) === true){
         if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
         else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
       }else if(get_title !== null){
@@ -103,7 +109,16 @@ module.exports = function(grunt) {
       }
     }
 
-    //인덱스 파일 생
+    // array str match
+    function find(key, array) {
+      for(var i=0; i<array.length; i++){
+        if(key.match(new RegExp(array[i], 'gi')) !== null) return true;
+      }
+
+      return false;
+    }
+
+    //인덱스 파일 생성
     function output_file_func(){
       var tpl = grunt.file.read(__dirname + '/../tpl/tpl.html'),
           html = '',

@@ -17,7 +17,8 @@ module.exports = function(grunt) {
           show_date : true,
           // filename: '',
           // title:'테스트 마크업 산출물',
-          // exclusions: []
+          // exclusions: [],
+          include_folder : ['includes']
         }
       }
     }
