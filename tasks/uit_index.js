@@ -94,7 +94,7 @@ module.exports = function(grunt) {
         index_list.push(new Array());
       }
 
-      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, options.include_folder) === true){
+      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){
         if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
         else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
       }else if(get_title !== null){
@@ -105,9 +105,16 @@ module.exports = function(grunt) {
     }
 
     // array str match
-    function find(key, array) {
+    function find(abspath, subdir, array) {
+      subdir = subdir+'/';
+      var folder = subdir.split('/');
       for(var i=0; i<array.length; i++){
-        if(key.match(new RegExp(array[i], 'gi')) !== null) return true;
+        for(var j=0; j<folder.length; j++){
+          if(folder[i] === array[i]){
+            return true;
+          }
+        }
+        // if(key.match(new RegExp(array[i], 'gi')) !== null) return true;
       }
 
       return false;
