@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "postinstall": "npm install node_modules/grunt/node_modules iconv-lite@0.4.4 --save-dev"
+    "postinstall": "npm install --prefix node_modules/grunt/node_modules iconv-lite@0.4.4 --save-dev"
   },
   "repository": {
     "type": "git",
