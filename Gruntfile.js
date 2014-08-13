@@ -18,7 +18,9 @@ module.exports = function(grunt) {
           // filename: '',
           // title:'테스트 마크업 산출물',
           // exclusions: [],
-          include_folder : ['includes']
+          include_folder : ['includes'],
+          qrcode : true,
+          download : true
         }
       }
     }

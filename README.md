@@ -65,7 +65,9 @@ grunt.initConfig({
           filename: '@index.html',
           title:'테스트 마크업 산출물',
           exclusions: ['**/@index.html', '**/node_modules/**/*'],
-          include_folder : ['includes']
+          include_folder : ['includes'],
+          qrcode : false,
+          download : false
         }
       }
     }
@@ -112,3 +114,15 @@ Default value: `[]`
 
 공통 파일이 들어 있는 폴더 입력
 예)['includes', 'inc']
+
+#### options.qrcode
+Type: `Boolean`
+Default value: `true`
+
+QR Code 생성 여부
+
+#### options.download
+Type: `Boolean`
+Default value: `true`
+
+CSS, IMG 폴더 다운로드 링크 생성 여부

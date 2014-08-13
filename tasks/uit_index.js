@@ -20,7 +20,9 @@ module.exports = function(grunt) {
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
           exclusions: this.exclusions || [],
-          include_folder: this.include_folder || []
+          include_folder: this.include_folder || [],
+          qrcode: this.qrcode || true,
+          download: this.download || true
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         folder_name = /css|img|im/i,
@@ -140,12 +142,14 @@ module.exports = function(grunt) {
       index_list.reverse();
 
       //다운로드 폴더 리스트 처리
-      download += '\t\t<ul>\r\n';
-      for(var folder in folder_download){
-        if(folder_download[folder] === '#') download += '\t\t<li><a href="">전체</a></li>\r\n';
-        else download += '\t\t<li><a href="' + folder_download[folder] + '">' + folder_download[folder] + '</a></li>\r\n';
+      if(options.download === true){
+        download += '\t\t<ul>\r\n';
+        for(var folder in folder_download){
+          if(folder_download[folder] === '#') download += '\t\t<li><a href="">전체</a></li>\r\n';
+          else download += '\t\t<li><a href="' + folder_download[folder] + '">' + folder_download[folder] + '</a></li>\r\n';
+        }
+        download += '\t\t</ul>\r\n';
       }
-      download += '\t\t</ul>\r\n';
 
       //파일 인덱스 리스트 처리
       for(var group in index_group_name){
@@ -168,6 +172,14 @@ module.exports = function(grunt) {
           creation_date = '<span>(생성일 : ' + d.getFullYear() + '년 ' + d.getMonth() + '월' + d.getDate() + '일 ' + d.getHours() + '시 ' + d.getMinutes() + '분' +')</span>';
       }
       
+      if(options.download === false){
+        tpl = tpl.replace(/<script(\s.*){1,17}/, '').replace(/<div id="download">(\s.*){1,4}/,'[[download]]');
+      }
+
+      if(options.qrcode === false){
+        tpl = tpl.replace(/<h2(\s.*){1,5}/, '');
+      }
+
       grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace('[[title]]', options.title).replace('[[date]]', creation_date));
       console.log(dest + ' 파일 인덱스 생성 완료');
 
