@@ -7,3 +7,4 @@ report
 report/*
 .jshintrc
 *.tgz
+dist
