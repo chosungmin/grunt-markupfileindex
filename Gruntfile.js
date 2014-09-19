@@ -32,8 +32,8 @@ module.exports = function(grunt) {
     },
     copy: {
       dist: {
-        src: 'grunt-nts-uit-index-<%= pkg.version %>.tgz',
-        dest: 'dist/grunt-nts-uit-index.latest.tgz'
+        src: '<%= pkg.name %>-<%= pkg.version %>.tgz',
+        dest: 'dist/<%= pkg.name %>.latest.tgz'
       }
     }
   });
