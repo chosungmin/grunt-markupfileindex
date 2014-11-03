@@ -169,7 +169,7 @@ module.exports = function(grunt) {
       dest = path.join(options.src, options.filename);
 
       if(options.show_date === true){
-          creation_date = '<span>(생성일 : ' + d.getFullYear() + '년 ' + d.getMonth() + '월' + d.getDate() + '일 ' + d.getHours() + '시 ' + d.getMinutes() + '분' +')</span>';
+          creation_date = '<span>(생성일 : ' + d.getFullYear() + '년 ' + parseInt(d.getMonth()+1) + '월 ' + d.getDate() + '일 ' + d.getHours() + '시 ' + d.getMinutes() + '분' +')</span>';
       }
       
       if(options.download === false){
