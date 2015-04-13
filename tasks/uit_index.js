@@ -105,21 +105,33 @@ module.exports = function(grunt) {
         file_list[file_group] = [];
       }
 
-      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){
-        // if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
-        // else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
-        
-        if(get_title !== null) file_list[file_group_txt[1]].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
-        else file_list[file_group_txt[1]].push(abspath + '_$$_' + filename +'_$$_' + abspath)
+      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){       
+        if(get_title !== null){
+          file_list[file_group_txt[1]].push({
+            'abspath': abspath,
+            'title': get_title,
+            'filename': ''
+          });
+        }else{
+          file_list[file_group_txt[1]].push({
+            'abspath': abspath,
+            'title': '',
+            'filename': filename
+          });
+        }
 
       }else if(get_title !== null){
-        // index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
-
-        file_list[file_group].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        file_list[file_group].push({
+          'abspath': abspath,
+          'title': get_title,
+          'filename': ''
+        });
       }else{
-        // index_list[0].push(abspath + '_$$_' + filename +'_$$_' + abspath);
-
-        file_list[file_group_txt[0]].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        file_list[file_group_txt[0]].push({
+          'abspath': abspath,
+          'title': get_title,
+          'filename': ''
+        });
       }
     }
 
@@ -203,8 +215,8 @@ module.exports = function(grunt) {
 
           // console.log('list : ' +  group + ' : ' + lst);
 
-          get_con = file_list[group][lst].split('_$$_');
-          html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+          // get_con = file_list[group][lst].split('_$$_');
+          html += '\t\t<li><a href="' + list.abspath + '">'+ list.title + '<span> / ' + list.filename + '</span></a></li>\r\n';
         }
 
         html += '\t\t</ul>\r\n';
