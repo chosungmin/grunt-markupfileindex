@@ -22,12 +22,16 @@ module.exports = function(grunt) {
           exclusions: this.exclusions || [],
           include_folder: this.include_folder || [],
           qrcode: this.qrcode || true,
-          download: this.download || true
+          download: this.download || true,
+          file_sort: this.file_sort || 'asc',
+          group_sort: this.group_sort || 'asc'
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         folder_name = /css|img|im/i,
         index_list = [[],[]],
         index_group_name = ['기타', '공통'],
+        file_group_txt = ['기타', '공통'],
+        file_list = {'기타' : [], '공통' : []},
         folder_download = ['#'],
         tmp = null;
 
@@ -91,18 +95,31 @@ module.exports = function(grunt) {
       }
 
       //파일 그룹 추가
-      if(file_group !== '' && index_group_name.indexOf(file_group) === -1){
-        index_group_name.push(file_group);
-        index_list.push(new Array());
+      // if(file_group !== '' && index_group_name.indexOf(file_group) === -1){
+      //   index_group_name.push(file_group);
+      //   index_list.push(new Array());
+      // }
+
+      if(file_group !== '' && file_group_txt.indexOf(file_group) === -1){
+        file_group_txt.push(file_group);
+        file_list[file_group] = [];
       }
 
       if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){
-        if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
-        else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+        // if(get_title !== null) index_list[1].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        // else index_list[1].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+        
+        if(get_title !== null) file_list[file_group_txt[1]].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        else file_list[file_group_txt[1]].push(abspath + '_$$_' + filename +'_$$_' + abspath)
+
       }else if(get_title !== null){
-        index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+        // index_list[index_group_name.indexOf(file_group)].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
+
+        file_list[file_group].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
       }else{
-        index_list[0].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+        // index_list[0].push(abspath + '_$$_' + filename +'_$$_' + abspath);
+
+        file_list[file_group_txt[0]].push(abspath + '_$$_' + get_title +'_$$_' + abspath);
       }
     }
 
@@ -130,7 +147,8 @@ module.exports = function(grunt) {
           get_con = '',
           dest = '',
           d = new Date(),
-          creation_date = '';
+          creation_date = '',
+          title = '';
 
       //공통 파일 그룹 없을때 배열 삭제
       if(index_list[1].length === 0){
@@ -138,8 +156,11 @@ module.exports = function(grunt) {
         index_list.splice(1, 1);
       }
 
-      index_group_name.reverse();
-      index_list.reverse();
+      // index_group_name.reverse();
+      // index_list.reverse();
+      // index_group_name.sort();
+
+      file_list = sortObj(file_list, 'key');
 
       //다운로드 폴더 리스트 처리
       if(options.download === true){
@@ -152,19 +173,79 @@ module.exports = function(grunt) {
       }
 
       //파일 인덱스 리스트 처리
-      for(var group in index_group_name){
-        if(index_group_name.length > 1) html += '\r\n\t\t<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
+      // for(var group in index_group_name){
+      //   if(index_group_name.length > 1) html += '\r\n\t\t<h2 class="sec_h">' + index_group_name[group] + '</h2>\r\n';
+      //   else html += '\r\n\t\t<h2 class="sec_h">파일 리스트</h2>\r\n';
+
+      //   html += '\t\t<ul>\r\n';
+
+      //   for(var lst in index_list[group]){
+      //     get_con = index_list[group][lst].split('_$$_');
+      //     html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+      //   }
+
+      //   html += '\t\t</ul>\r\n';
+      // }
+
+      for(var group in file_list){
+        if(group === file_group_txt[0] || group === file_group_txt[1]) continue;
+
+        if(file_list[group].length > 1) html += '\r\n\t\t<h2 class="sec_h">' + group + '</h2>\r\n';
         else html += '\r\n\t\t<h2 class="sec_h">파일 리스트</h2>\r\n';
+
+        if(options.file_sort === 'desc'){
+          file_list[group] = file_list[group].reverse();
+        }
 
         html += '\t\t<ul>\r\n';
 
-        for(var lst in index_list[group]){
-          get_con = index_list[group][lst].split('_$$_');
+        for(var lst in file_list[group]){
+
+          // console.log('list : ' +  group + ' : ' + lst);
+
+          get_con = file_list[group][lst].split('_$$_');
           html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
         }
 
         html += '\t\t</ul>\r\n';
       }
+
+      
+      for(var i=1; i>=0; i--){
+        if(file_list[file_group_txt[i]].length > 1){
+          html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[i] + '</h2>\r\n';
+          html += '\t\t<ul>\r\n';
+
+          if(options.file_sort === 'desc'){
+            file_list[file_group_txt[i]] = file_list[file_group_txt[i]].reverse();
+          }
+
+          for(var lst in file_list[file_group_txt[i]]){
+
+            get_con = file_list[file_group_txt[i]][lst].split('_$$_');
+            html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+          }
+
+          html += '\t\t</ul>\r\n';
+        }
+      }
+
+      // if(file_list[file_group_txt[0]].length > 1){
+      //   html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[0] + '</h2>\r\n';
+      //   html += '\t\t<ul>\r\n';
+
+      //   if(options.file_sort == 'desc'){
+      //     file_list[file_group_txt[0]] = file_list[file_group_txt[0]].reverse();
+      //   }
+
+      //   for(var lst in file_list[file_group_txt[0]]){
+
+      //     get_con = file_list[file_group_txt[0]][lst].split('_$$_');
+      //     html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+      //   }
+
+      //   html += '\t\t</ul>\r\n';
+      // }
       
       dest = path.join(options.src, options.filename);
 
@@ -180,11 +261,47 @@ module.exports = function(grunt) {
         tpl = tpl.replace(/<h2(\s.*){1,5}/, '');
       }
 
-      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace('[[title]]', options.title).replace('[[date]]', creation_date));
+      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace(/\[\[title\]\]/g, options.title).replace('[[date]]', creation_date));
       console.log(dest + ' 파일 인덱스 생성 완료');
 
       done();
     }
+
+    function sortObj(obj, type, caseSensitive) {
+      var temp_array = [];
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (!caseSensitive) {
+            key = (key['toLowerCase'] ? key.toLowerCase() : key);
+          }
+          temp_array.push(key);
+        }
+      }
+      if (typeof type === 'function') {
+        temp_array.sort(type);
+      } else if (type === 'value') {
+        temp_array.sort(function(a,b) {
+          var x = obj[a];
+          var y = obj[b];
+          if (!caseSensitive) {
+            x = (x['toLowerCase'] ? x.toLowerCase() : x);
+            y = (y['toLowerCase'] ? y.toLowerCase() : y);
+          }
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+      } else {
+        temp_array.sort();
+
+        if(options.group_sort === 'desc'){
+          temp_array.reverse();
+        }
+      }
+      var temp_obj = {};
+      for (var i=0; i<temp_array.length; i++) {
+        temp_obj[temp_array[i]] = obj[temp_array[i]];
+      }
+      return temp_obj;
+    };
 
   });
 };

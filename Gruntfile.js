@@ -17,11 +17,13 @@ module.exports = function(grunt) {
           src: './test/',
           show_date : true,
           // filename: '',
-          // title:'테스트 마크업 산출물',
+          title:'테스트 마크업 산출물',
           // exclusions: [],
           include_folder : ['includes'],
           qrcode : true,
-          download : true
+          download : true,
+          file_sort: 'asc',
+          group_sort: 'asc'
         }
       }
     },
