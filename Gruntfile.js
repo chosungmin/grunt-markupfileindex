@@ -23,6 +23,7 @@ module.exports = function(grunt) {
           qrcode : true,
           download : true,
           file_sort: 'asc',
+          file_sort_key : 'title',
           group_sort: 'asc'
         }
       }

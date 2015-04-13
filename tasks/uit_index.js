@@ -24,14 +24,15 @@ module.exports = function(grunt) {
           qrcode: this.qrcode || true,
           download: this.download || true,
           file_sort: this.file_sort || 'asc',
+          file_sort_key: this.file_sort_key || 'title',
           group_sort: this.group_sort || 'asc'
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         folder_name = /css|img|im/i,
         index_list = [[],[]],
-        index_group_name = ['기타', '공통'],
-        file_group_txt = ['기타', '공통'],
-        file_list = {'기타' : [], '공통' : []},
+        index_group_name = ['기타', 'includes'],
+        file_group_txt = ['기타', 'includes'],
+        file_list = {'기타' : [], 'includes' : []},
         folder_download = ['#'],
         tmp = null;
 
@@ -110,12 +111,12 @@ module.exports = function(grunt) {
           file_list[file_group_txt[1]].push({
             'abspath': abspath,
             'title': get_title,
-            'filename': ''
+            'filename': filename
           });
         }else{
           file_list[file_group_txt[1]].push({
             'abspath': abspath,
-            'title': '',
+            'title': filename,
             'filename': filename
           });
         }
@@ -124,13 +125,13 @@ module.exports = function(grunt) {
         file_list[file_group].push({
           'abspath': abspath,
           'title': get_title,
-          'filename': ''
+          'filename': filename
         });
       }else{
         file_list[file_group_txt[0]].push({
           'abspath': abspath,
           'title': get_title,
-          'filename': ''
+          'filename': filename
         });
       }
     }
@@ -213,10 +214,11 @@ module.exports = function(grunt) {
 
         for(var lst in file_list[group]){
 
-          // console.log('list : ' +  group + ' : ' + lst);
+
+          // console.log(file_list[group][lst].abspath);
 
           // get_con = file_list[group][lst].split('_$$_');
-          html += '\t\t<li><a href="' + list.abspath + '">'+ list.title + '<span> / ' + list.filename + '</span></a></li>\r\n';
+          html += '\t\t<li><a href="' + file_list[group][lst].abspath + '">'+ file_list[group][lst].title + '<span> / ' + file_list[group][lst].abspath + '</span></a></li>\r\n';
         }
 
         html += '\t\t</ul>\r\n';
@@ -225,7 +227,7 @@ module.exports = function(grunt) {
       
       for(var i=1; i>=0; i--){
         if(file_list[file_group_txt[i]].length > 1){
-          html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[i] + '</h2>\r\n';
+          html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[i].replace(/^includes$/, 'Include files') + '</h2>\r\n';
           html += '\t\t<ul>\r\n';
 
           if(options.file_sort === 'desc'){
@@ -234,30 +236,32 @@ module.exports = function(grunt) {
 
           for(var lst in file_list[file_group_txt[i]]){
 
-            get_con = file_list[file_group_txt[i]][lst].split('_$$_');
-            html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
+            // get_con = file_list[file_group_txt[i]][lst].split('_$$_');
+            html += '\t\t<li><a href="' + file_list[file_group_txt[i]][lst].abspath + '">'+ file_list[file_group_txt[i]][lst].title + '<span> / ' + file_list[file_group_txt[i]][lst].abspath + '</span></a></li>\r\n';
           }
 
           html += '\t\t</ul>\r\n';
         }
       }
 
-      // if(file_list[file_group_txt[0]].length > 1){
-      //   html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[0] + '</h2>\r\n';
-      //   html += '\t\t<ul>\r\n';
+      for(var i=0; i<=1; i++){
+        if(file_list[file_group_txt[i]].length > 1){
+          html += '\r\n\t\t<h2 class="sec_h">' + file_group_txt[i].replace(/^includes$/, 'Include files') + '</h2>\r\n';
+          html += '\t\t<ul>\r\n';
 
-      //   if(options.file_sort == 'desc'){
-      //     file_list[file_group_txt[0]] = file_list[file_group_txt[0]].reverse();
-      //   }
+          if(options.file_sort === 'desc'){
+            file_list[file_group_txt[i]] = file_list[file_group_txt[i]].reverse();
+          }
 
-      //   for(var lst in file_list[file_group_txt[0]]){
+          for(var lst in file_list[file_group_txt[i]]){
 
-      //     get_con = file_list[file_group_txt[0]][lst].split('_$$_');
-      //     html += '\t\t<li><a href="' + get_con[0] + '">'+ get_con[1] + '<span> / ' + get_con[2] + '</span></a></li>\r\n';
-      //   }
+            // get_con = file_list[file_group_txt[i]][lst].split('_$$_');
+            html += '\t\t<li><a href="' + file_list[file_group_txt[i]][lst].abspath + '">'+ file_list[file_group_txt[i]][lst].title + '<span> / ' + file_list[file_group_txt[i]][lst].abspath + '</span></a></li>\r\n';
+          }
 
-      //   html += '\t\t</ul>\r\n';
-      // }
+          html += '\t\t</ul>\r\n';
+        }
+      }
       
       dest = path.join(options.src, options.filename);
 
