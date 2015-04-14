@@ -1,6 +1,6 @@
 {
   "name": "grunt-nts-uit-index",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "grunt nts uit index",
   "main": "Gruntfile.js",
   "directories": {
@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-copy": "~0.5.0",
     "grunt-shell": "~1.0.1"
   },
@@ -20,11 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index.git"
+    "url": "http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index.git"
   },
-  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/)",
+  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/)",
   "bugs": {
-    "url": "http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/issues"
+    "url": "http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/issues"
   },
   "keywords": [
     "nts",

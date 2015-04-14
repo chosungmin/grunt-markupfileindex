@@ -1,6 +1,6 @@
 /*
  * grunt-nts-uit-index
- * http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index
+ * http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index
  *
  * Copyright (c) 2014 chosungmin
  * Licensed under the MIT license.
@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     uit_index: {
       index: {
         options: {
-          src: './test/',
+          src: './test',
           show_date : true,
           // filename: '',
           title:'테스트 마크업 산출물',
@@ -22,9 +22,9 @@ module.exports = function(grunt) {
           include_folder : ['includes'],
           qrcode : true,
           download : true,
-          file_sort: 'asc',
+          file_sort : 'asc',
           file_sort_key : 'title',
-          group_sort: 'asc'
+          group_sort : 'asc'
         }
       }
     },
@@ -37,8 +37,15 @@ module.exports = function(grunt) {
       dist: {
         src: '<%= pkg.name %>-<%= pkg.version %>.tgz',
         dest: 'dist/<%= pkg.name %>.latest.tgz'
+      },
+      old: {
+        expand : true,
+        cwd : '',
+        src: ['*.tgz'],
+        dest: 'dist/old/'
       }
-    }
+    },
+    clean: ['./*.tgz'],
   });
 
   // Actually load this plugin's task(s).
@@ -47,9 +54,9 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['uit_index']);
-  grunt.registerTask('dist', ['shell:dist', 'copy:dist']);
-
+  grunt.registerTask('dist', ['shell:dist', 'copy:dist', 'copy:old', 'clean']);
 };

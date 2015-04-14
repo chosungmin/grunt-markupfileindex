@@ -8,7 +8,7 @@ This plugin requires Grunt `~0.4.4`
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
-npm install http://gitlab.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/dist/grunt-nts-uit-index.latest.tgz --save-dev
+npm install http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/raw/master/dist/grunt-nts-uit-index.latest.tgz --save-dev
 ```
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
@@ -41,7 +41,7 @@ html, php title이 없거나 패턴에 맞지 않을 경우 파일명으로 출�
 ### Overview
 In your project's Gruntfile, add a section named `uit_index` to the data object passed into `grunt.initConfig()`.
 
-#### Short
+#### 기본 옵션 설정
 ```js
 grunt.initConfig({
   uit_index: {
@@ -54,7 +54,7 @@ grunt.initConfig({
 });
 ```
 
-#### Medium (specific targets with filename)
+#### 확장 옵션 설정
 ```js
 grunt.initConfig({
   uit_index: {
@@ -67,7 +67,10 @@ grunt.initConfig({
           exclusions: ['**/@index.html', '**/node_modules/**/*'],
           include_folder : ['includes'],
           qrcode : false,
-          download : false
+          download : false,
+          file_sort : 'asc',
+          file_sort_key : 'title',
+          group_sort : 'asc'
         }
       }
     }
@@ -126,3 +129,25 @@ Type: `Boolean`
 Default value: `true`
 
 CSS, IMG 폴더 다운로드 링크 생성 여부
+
+#### options.group_sort
+Type: `String`
+Default value: `asc`
+Value: `asc | desc`
+
+그룹 리스트 정렬(오름차순, 내림차순 중 선택)
+
+#### options.file_sort
+Type: `String`
+Default value: `asc`
+Value: `asc | desc`
+
+파일 리스트 정렬(오름차순, 내림차순 중 선택)
+
+#### options.file_sort_key
+Type: `String`
+Default value: `title`
+Value: `title | filename`
+
+파일 리스트 정렬 키(제목, 파일명 중 선택 중 선택)
+
