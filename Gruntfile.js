@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         dest: 'dist/old/'
       }
     },
-    clean: ['./*.tgz'],
+    clean: ['<%= pkg.name %>-<%= pkg.version %>.tgz'],
   });
 
   // Actually load this plugin's task(s).
