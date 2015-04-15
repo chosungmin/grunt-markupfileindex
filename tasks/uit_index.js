@@ -194,7 +194,7 @@ module.exports = function(grunt) {
 
       // 기타, Include 그룹 출력
       for(var i=0; i<=1; i++){
-        if(file_list[file_group_name[i]].length > 1){
+        if(file_list[file_group_name[i]].length >= 1){
 
           if(i === 0 && group_num === 0 && file_list[file_group_name[1]].length === 0){
             html += '\r\n\t\t<h2 class="sec_h">파일 리스트</h2>\r\n';
