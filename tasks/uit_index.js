@@ -9,6 +9,7 @@
 'use strict';
 
 var chardet = require('chardet');
+var _ = require('lodash');
 
 module.exports = function(grunt) {
   grunt.registerMultiTask('uit_index', 'grunt nts uit index', function() {
@@ -230,45 +231,36 @@ module.exports = function(grunt) {
       }
 
       grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace(/\[\[title\]\]/g, options.title).replace('[[date]]', creation_date));
-      console.log(dest + ' 파일 인덱스 생성 완료');
+      grunt.log.ok(dest + ' 파일 인덱스 생성 완료');
 
       done();
     }
 
     // 그룹 정렬
-    function sortGroup(obj, type, sort_type, caseSensitive) {
-      var temp_array = [];
-      for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
+    function sortGroup(obj, type, sort_type, caseSensitive) { // type = 'key' or 'value' or compareFunction (default: 'key')
+      caseSensitive = caseSensitive != null ? caseSensitive : false;  // caseSensitive = false (default)
+      var compareFunction = function(orderBy){
+        var compareIndex = orderBy === 'value'?1:0;
+        return function(a,b){
+          a = a[compareIndex];
+          b = b[compareIndex];
           if (!caseSensitive) {
-            key = (key['toLowerCase'] ? key.toLowerCase() : key);
+            a = a.toLowerCase();
+            b = b.toLowerCase();
           }
-          temp_array.push(key);
+          return a<b ? -1 : (a>b ? 1 : 0);
         }
       }
-      if (typeof type === 'function') {
-        temp_array.sort(type);
-      } else if (type === 'value') {
-        temp_array.sort(function(a,b) {
-          var x = obj[a];
-          var y = obj[b];
-          if (!caseSensitive) {
-            x = (x['toLowerCase'] ? x.toLowerCase() : x);
-            y = (y['toLowerCase'] ? y.toLowerCase() : y);
-          }
-          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-        });
-      } else {
-        temp_array.sort();
-
-        if(sort_type === 'desc') temp_array.reverse();
-      }
-
-      var temp_obj = {};
-      for (var i=0; i<temp_array.length; i++) {
-        temp_obj[temp_array[i]] = obj[temp_array[i]];
-      }
-      return temp_obj;
+      
+      var tmp_obj = _.pairs(obj);
+      
+      if (typeof type !== 'function')  type = compareFunction(type);
+      
+      tmp_obj = tmp_obj.sort(type);
+      
+      if (sort_type === 'desc') tmp_obj.reverse();
+      
+      return _.zipObject(tmp_obj);
     };
 
     // 그룹 > 파일 리스트 정렬
