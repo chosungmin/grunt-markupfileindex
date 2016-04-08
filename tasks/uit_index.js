@@ -8,15 +8,17 @@
 
 'use strict';
 
-var chardet = require('chardet');
-var _ = require('lodash');
+var chardet = require('chardet'),
+    _ = require('lodash');
 
 module.exports = function(grunt) {
+  var isWindows = process.platform === 'win32';
+
   grunt.registerMultiTask('uit_index', 'grunt nts uit index', function() {
     var done = this.async(),
         path = require('path'),
         options = this.options({
-          src: this.src || null,
+          // src: this.src || null,
           show_date: this.show_date || false,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
@@ -30,8 +32,9 @@ module.exports = function(grunt) {
         }),
         file_ext = /\.+(php|html|htm)$/gi,
         folder_name = /css|img|im/i,
-        file_group_name = ['기타', 'includes'],
-        file_list = {'기타' : [], 'includes' : []},
+        file_group_name = ['etc', 'includes'],
+        // file_list = {'기타' : [], 'includes' : []},
+        file_list = [],
         folder_download = ['#'],
         tmp = null;
 
@@ -41,33 +44,63 @@ module.exports = function(grunt) {
     options.exclusions.push('**/.*/**/*');
     options.exclusions.push('**/.*/**/.*');
 
-    grunt.file.recurse(options.src, function(abspath, rootdir, subdir, filename){
-      //다운로드 폴더 추가(최상위 폴더만...)
-      if(!grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
-        tmp = ('/'+subdir).split('/');
-        if(grunt.file.isDir(rootdir+subdir) && tmp[1].match(folder_name) !== null && folder_download.indexOf(tmp[1]) === -1) folder_download.push(tmp[1]);
+    var detectDestType = function(dest) {
+      if (grunt.util._.endsWith(dest, '/')) {
+        return 'directory';
+      } else {
+        return 'file';
       }
+    };
 
-      //파일 인덱스 리스트 추가
-      if(filename.match(file_ext) !== null && !grunt.file.isMatch({matchBase: true}, options.exclusions, abspath)){
-        get_title_func(abspath, subdir, filename);
-      }      
+    var unixifyPath = function(filepath) {
+      if (isWindows) {
+        return filepath.replace(/\\/g, '/');
+      } else {
+        return filepath;
+      }
+    };
+
+    var isExpandedPair;
+    this.files.forEach(function(filePair) {
+      isExpandedPair = filePair.orig.expand || false;
+
+      // console.log(filePair);
+
+      filePair.src.forEach(function(src) {
+        src = unixifyPath(src);
+        var dest = unixifyPath(filePair.dest);
+
+        if (detectDestType(dest) === 'directory') {
+          dest = isExpandedPair ? dest : path.join(dest, src);
+        }
+
+        if(grunt.file.isDir(src) !== true) get_title_func(src, dest);
+      });
     });
+
     output_file_func();
 
     //title 값 가져오기
-    function get_title_func(abspath, subdir, filename){
+    function get_title_func(src, dest){
       var get_title = '',
           file_group = '',
-          file_content = null;
+          file_content = null,
+          filename = src.split('/'),
+          filename = filename[filename.length-1],
+          include_folder = new RegExp('\/?' + (options.include_folder.toString()).replace(/,/g, '|') + '\/', 'g');
 
-      if(chardet.detectFileSync(abspath) === 'EUC-KR'){
-        file_content = grunt.file.read(abspath, {encoding: 'euc-kr'});
+      // console.log(src, src.match(include_folder), include_folder);
+      // src.match(include_folder);
+
+      // return;
+
+      if(chardet.detectFileSync(src) === 'EUC-KR'){
+        file_content = grunt.file.read(src, {encoding: 'euc-kr'});
       }else{
-        file_content = grunt.file.read(abspath);
+        file_content = grunt.file.read(src);
       }
-      
-      abspath = (subdir !== undefined) ? subdir + '/' + filename : filename ;
+
+      // abspath = (subdir !== undefined) ? subdir + '/' + filename : filename ;
 
       //html 문법에서 title값 찾기
       get_title = file_content.match(/<title>.*<\/title>/gi);
@@ -102,48 +135,38 @@ module.exports = function(grunt) {
       }
 
       // 파일 정보 저장
-      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){       
+      // if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || find(abspath, subdir, options.include_folder) === true){
+      if(filename.match(/_incl|incl_|_inc|inc_/g) !== null || src.match(include_folder) !== null){
         if(get_title !== null){
-          file_list[file_group_name[1]].push({
-            'abspath': abspath,
+            file_list.push({
+              'group': file_group_name[1],
+              'abspath': dest,
+              'title': get_title,
+              'filename': filename
+            });
+          }else{
+            file_list.push({
+              'group': file_group_name[1],
+              'abspath': dest,
+              'title': filename,
+              'filename': filename
+            });
+          }
+        }else if(get_title !== null){
+          file_list.push({
+            'group': file_group,
+            'abspath': dest,
             'title': get_title,
             'filename': filename
           });
         }else{
-          file_list[file_group_name[1]].push({
-            'abspath': abspath,
-            'title': filename,
+          file_list.push({
+            'group': file_group_name[0],
+            'abspath': dest,
+            'title': get_title,
             'filename': filename
           });
         }
-      }else if(get_title !== null){
-        file_list[file_group].push({
-          'abspath': abspath,
-          'title': get_title,
-          'filename': filename
-        });
-      }else{
-        file_list[file_group_name[0]].push({
-          'abspath': abspath,
-          'title': get_title,
-          'filename': filename
-        });
-      }
-    }
-
-    // array str match
-    function find(abspath, subdir, array) {
-      subdir = subdir+'/';
-      var folder = subdir.split('/');
-      for(var i=0; i<array.length; i++){
-        for(var j=0; j<folder.length; j++){
-          if(folder[i] === array[i]){
-            return true;
-          }
-        }
-      }
-
-      return false;
     }
 
     //인덱스 파일 생성
@@ -158,18 +181,11 @@ module.exports = function(grunt) {
           title = '',
           group_num = 0;
 
-      //다운로드 폴더 리스트 처리
-      if(options.download === true){
-        download += '\t\t<ul>\r\n';
-        for(var folder in folder_download){
-          if(folder_download[folder] === '#') download += '\t\t<li><a href="">전체</a></li>\r\n';
-          else download += '\t\t<li><a href="' + folder_download[folder] + '">' + folder_download[folder] + '</a></li>\r\n';
-        }
-        download += '\t\t</ul>\r\n';
-      }
+      // console.log(file_list);
 
       // 파일 그룹 정렬
-      file_list = sortGroup(file_list, 'key', options.group_sort);
+      file_list = sortGroup(file_list, 'group', options.group_sort);
+
 
       // 그룹별 출력
       for(var group in file_list){
@@ -200,9 +216,9 @@ module.exports = function(grunt) {
           if(i === 0 && group_num === 0 && file_list[file_group_name[1]].length === 0){
             html += '\r\n\t\t<h2 class="sec_h">파일 리스트</h2>\r\n';
           }else{
-            html += '\r\n\t\t<h2 class="sec_h">' + file_group_name[i].replace(/^includes$/, 'Include files') + '</h2>\r\n';  
+            html += '\r\n\t\t<h2 class="sec_h">' + file_group_name[i].replace(/^includes$/, 'Include files') + '</h2>\r\n';
           }
-          
+
           html += '\t\t<ul>\r\n';
 
           // 파일 리스트 정렬
@@ -215,56 +231,41 @@ module.exports = function(grunt) {
           html += '\t\t</ul>\r\n';
         }
       }
-      
-      dest = path.join(options.src, options.filename);
+
+      var dest = unixifyPath(this.files.dest);
+
+      if (detectDestType(dest) === 'directory') {
+        dest = path.join(dest, options.filename);
+      }
+
+      // dest = path.join(options.dest, options.filename);
 
       if(options.show_date === true){
           creation_date = '<span>(생성일 : ' + d.getFullYear() + '년 ' + parseInt(d.getMonth()+1) + '월 ' + d.getDate() + '일 ' + d.getHours() + '시 ' + d.getMinutes() + '분' +')</span>';
       }
-      
-      if(options.download === false){
-        tpl = tpl.replace(/<script(\s.*){1,17}/, '').replace(/<div id="download">(\s.*){1,4}/,'[[download]]');
-      }
-
-      if(options.qrcode === false){
-        tpl = tpl.replace(/<h2(\s.*){1,5}/, '');
-      }
-
-      grunt.file.write(dest, tpl.replace('[[download]]', download).replace('[[html]]', html).replace(/\[\[title\]\]/g, options.title).replace('[[date]]', creation_date));
+        console.log(dest);
+      grunt.file.write(dest, tpl.replace('[[html]]', html).replace(/\[\[title\]\]/g, options.title).replace('[[date]]', creation_date));
       grunt.log.ok(dest + ' 파일 인덱스 생성 완료');
 
       done();
     }
 
     // 그룹 정렬
-    function sortGroup(obj, type, sort_type, caseSensitive) { // type = 'key' or 'value' or compareFunction (default: 'key')
-      caseSensitive = caseSensitive != null ? caseSensitive : false;  // caseSensitive = false (default)
-      var compareFunction = function(orderBy){
-        var compareIndex = orderBy === 'value'?1:0;
-        return function(a,b){
-          a = a[compareIndex];
-          b = b[compareIndex];
-          if (!caseSensitive) {
-            a = a.toLowerCase();
-            b = b.toLowerCase();
-          }
-          return a<b ? -1 : (a>b ? 1 : 0);
-        }
-      }
-      
-      var tmp_obj = _.pairs(obj);
-      
-      if (typeof type !== 'function')  type = compareFunction(type);
-      
-      tmp_obj = tmp_obj.sort(type);
-      
-      if (sort_type === 'desc') tmp_obj.reverse();
-      
-      return _.zipObject(tmp_obj);
-    };
+    function sortGroup(obj, key, orderBy) {
+      var groups = _.groupBy( obj, key );
+
+      // for ( var key in groups ){
+      //   groups[key].sort( function(a,b){ var x = a.abspath, y = b.abspath; return x === y ? 0 : x < y ? -1 : 1; } );
+      // }
+
+
+      // Object.keys(groups).reverse();
+
+      console.log( groups );
+    }
 
     // 그룹 > 파일 리스트 정렬
-    function sortList(obj, key, sort_type){
+    function sortList(obj, key, orderBy){
       if(key !== 'title' && key !== 'filename') return obj;
 
       obj = obj.sort(function(a, b){
@@ -280,7 +281,7 @@ module.exports = function(grunt) {
         }
       });
 
-      if(sort_type === 'desc') return obj.reverse();
+      if(orderBy === 'desc') return obj.reverse();
       else return obj;
     }
   });

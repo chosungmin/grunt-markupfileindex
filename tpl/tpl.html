@@ -4,23 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,target-densitydpi=medium-dpi">
 <title>[[title]]</title>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	var loc = window.location,
-		domain = loc.origin,
-		filename = loc.pathname.split('/');
-		path = loc.pathname.replace(filename[filename.length-1], '');
-
-	if(domain === 'http://view.ui.naver.com'){
-		$('#download a').each(function(){
-			$(this).attr('href', '/www_util/svnutil/download.php?r_uri=' + path + $(this).attr('href'));
-		});
-	}else{
-		$('#download').remove();
-	}
-});	
-</script>
 <style type="text/css">
 /* Common */
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
@@ -67,20 +50,6 @@ document.createElement("footer");
 </header>
 
 <article id="ct">
-	<section>
-		<h1 class="u_vc">기타 정보</h1>
-
-		<h2 class="sec_h">파일 리스트 페이지 URL - QR Code</h2>
-		<img id="_im1" style="width:150px;height:150px">
-		<script type="text/javascript">
-		document.getElementById("_im1").src = 'http://chart.apis.google.com/chart?cht=qr&chs=150x150&chl='+encodeURIComponent(location.href);
-		</script>
-
-		<div id="download">
-			<h2 class="sec_h">파일 다운로드</h2>
-[[download]]
-		</div>
-	</section>
 	<section role="main">
 		<h1 class="u_vc">마크업</h1>
 [[html]]

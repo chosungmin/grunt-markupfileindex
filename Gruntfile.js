@@ -12,20 +12,24 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     uit_index: {
+      options: {
+        show_date : true,
+        // filename: '',
+        title:'테스트 마크업 산출물',
+        // exclusions: [],
+        include_folder : ['includes', 'inc', 'testInc', 'aaaatestIncludes'],
+        file_sort : 'asc',
+        file_sort_key : 'title',
+        group_sort : 'asc'
+      },
       index: {
-        options: {
-          src: './test',
-          show_date : true,
-          // filename: '',
-          title:'테스트 마크업 산출물',
-          // exclusions: [],
-          include_folder : ['includes'],
-          qrcode : true,
-          download : true,
-          file_sort : 'asc',
-          file_sort_key : 'title',
-          group_sort : 'asc'
-        }
+        expand : true,
+        cwd : './test/',
+        src: ['**/*'],
+        dest: 'dest'
+        //
+        // src: ['./test/**/*'],
+        // dest: './test'
       }
     },
     shell: {
