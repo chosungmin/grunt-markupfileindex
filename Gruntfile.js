@@ -11,7 +11,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    markupindex: {
+    markupfileindex: {
       options: {
         show_date : true,
         // filename: '',
@@ -57,6 +57,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['markupindex']);
+  grunt.registerTask('default', ['markupfileindex']);
   grunt.registerTask('dist', ['shell:dist', 'copy:dist', 'copy:old', 'clean']);
 };

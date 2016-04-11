@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       chardet = require('chardet'),
       _ = require('lodash');
 
-  grunt.registerMultiTask('markupindex', 'Markup File Index', function() {
+  grunt.registerMultiTask('markupfileindex', 'Markup File Index', function() {
     var self = this,
         done = this.async(),
         path = require('path'),
@@ -33,6 +33,8 @@ module.exports = function(grunt) {
 
     // 최종 파일은 파일리스트에서 제외
     this.data.src.push(this.data.dest + options.filename);
+
+    grunt.log.writeln("*Markup File Index 작성중*");
 
     this.files.forEach(function(filePair) {
       filePair.src.forEach(function(src) {

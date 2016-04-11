@@ -1,5 +1,5 @@
 {
-  "name": "gruntMarkupFileIndex",
+  "name": "markupfileindex",
   "version": "1.0.0",
   "description": "grunt Markup File Index",
   "main": "Gruntfile.js",
@@ -28,7 +28,8 @@
     "url": "http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex/issues"
   },
   "keywords": [
-    "html",
+    "grunt",
+    "markup",
     "file",
     "index"
   ],
