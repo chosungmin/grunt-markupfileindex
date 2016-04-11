@@ -1,6 +1,6 @@
 {
   "name": "gruntHTMLFileIndex",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "description": "grunt HTML File Index",
   "main": "Gruntfile.js",
   "directories": {
@@ -21,11 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index.git"
+    "url": "http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex.git"
   },
-  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/)",
+  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex/)",
   "bugs": {
-    "url": "http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index/issues"
+    "url": "http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex/issues"
   },
   "keywords": [
     "html",
