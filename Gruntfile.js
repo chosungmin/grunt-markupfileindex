@@ -25,11 +25,8 @@ module.exports = function(grunt) {
       index: {
         expand : true,
         cwd : './test/',
-        src: ['**/*'],
-        dest: 'dest'
-        //
-        // src: ['./test/**/*'],
-        // dest: './test'
+        src: ['**/*', '!**/node_modules/**/', '!**/.*/**'],
+        dest: 'test/'
       }
     },
     shell: {
