@@ -82,7 +82,7 @@ module.exports = function(grunt) {
           file_group = '',
           file_content = null,
           filename = src.split('/'),
-          filename = filename[filename.length-1],
+          filename = (filename.length) ? filename[filename.length-1] : filename,
           include_folder = new RegExp('\/?' + (options.include_folder.toString()).replace(/,/g, '|') + '\/', 'g');
 
       if(chardet.detectFileSync(src) === 'EUC-KR'){
