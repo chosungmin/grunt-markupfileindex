@@ -21,9 +21,7 @@ module.exports = function(grunt) {
           show_date: this.show_date || false,
           filename: this.filename || '@index.html',
           title: this.title || '마크업 산출물',
-          include_folder: this.include_folder || [],
-          qrcode: this.qrcode || true,
-          download: this.download || true,
+          include_folder: this.include_folder || ['!$%^!@#$%'],
           file_sort: this.file_sort || 'asc',
           file_sort_key: this.file_sort_key || 'title',
           group_sort: this.group_sort || 'asc'
@@ -165,6 +163,9 @@ module.exports = function(grunt) {
 
         html[saveTarget] += '\t\t</ul>\r\n';
       }
+
+      if(!!!html[0]) html[0] = '';
+      if(!!!html[1]) html[1] = '';
 
       html = html[1].concat(html[0]);
 

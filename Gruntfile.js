@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         show_date : true,
         // filename: '',
         title:'테스트 마크업 산출물',
-        include_folder : ['includes', 'inc', 'testInc', 'aaaatestIncludes'],
+        include_folder : ['includes', 'inc', 'testInc'],
         file_sort : 'asc',
         file_sort_key : 'title',
         group_sort : 'asc'
