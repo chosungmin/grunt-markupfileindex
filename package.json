@@ -1,7 +1,7 @@
 {
-  "name": "gruntHTMLFileIndex",
+  "name": "gruntMarkupFileIndex",
   "version": "1.0.0",
-  "description": "grunt HTML File Index",
+  "description": "grunt Markup File Index",
   "main": "Gruntfile.js",
   "directories": {
     "test": "test"
@@ -21,11 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex.git"
+    "url": "http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex.git"
   },
-  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex/)",
+  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex/)",
   "bugs": {
-    "url": "http://gitlab.clus.org/chosungmin/gruntHTMLFileIndex/issues"
+    "url": "http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex/issues"
   },
   "keywords": [
     "html",

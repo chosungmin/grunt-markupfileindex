@@ -11,12 +11,11 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    uit_index: {
+    markupindex: {
       options: {
         show_date : true,
         // filename: '',
         title:'테스트 마크업 산출물',
-        // exclusions: [],
         include_folder : ['includes', 'inc', 'testInc', 'aaaatestIncludes'],
         file_sort : 'asc',
         file_sort_key : 'title',
@@ -24,8 +23,8 @@ module.exports = function(grunt) {
       },
       index: {
         expand : true,
-        cwd : './test/',
-        src: ['**/*', '!**/node_modules/**/', '!**/.*/**'],
+        cwd : 'test/',
+        src: ['**/*.{html,php}', '!**/node_modules/**/', '!**/.*/**'],
         dest: 'test/'
       }
     },
@@ -58,6 +57,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['uit_index']);
+  grunt.registerTask('default', ['markupindex']);
   grunt.registerTask('dist', ['shell:dist', 'copy:dist', 'copy:old', 'clean']);
 };
