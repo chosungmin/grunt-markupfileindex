@@ -1,8 +1,8 @@
 /*
- * grunt-nts-uit-index
- * http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index
+ * grunt-markupfileindex
+ * https://github.com/chosungmin/grunt-markupfileindex.git
  *
- * Copyright (c) 2014 chosungmin
+ * Copyright (c) 2016 chosungmin
  * Licensed under the MIT license.
  */
 
@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     markupfileindex: {
       options: {
         show_date : true,
-        // filename: '',
+        filename: '@test.html',
         title:'테스트 마크업 산출물',
         include_folder : ['includes', 'inc', 'testInc'],
         file_sort : 'asc',

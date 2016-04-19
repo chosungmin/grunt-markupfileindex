@@ -188,8 +188,26 @@ module.exports = function(grunt) {
 
     // 그룹 정렬
     function groupBy(obj, key, orderBy) {
-      return _.groupBy(obj, key);
+      var obj = _.groupBy(obj, key);
+
+      obj = sortObjectByKey(obj, orderBy);
+
+      return obj;
     }
+
+    function sortObjectByKey(obj, orderBy){
+      if(orderBy === 'desc'){
+        return Object.keys(obj).sort().reverse().reduce(function (result, key) {
+          result[key] = obj[key];
+          return result;
+        }, {});
+      }else{
+        return Object.keys(obj).sort().reduce(function (result, key) {
+          result[key] = obj[key];
+          return result;
+        }, {});
+      }
+    };
 
     // 그룹 > 파일 리스트 정렬
     function sortFileList(obj, key, orderBy){

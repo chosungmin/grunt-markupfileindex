@@ -1,5 +1,5 @@
 {
-  "name": "markupfileindex",
+  "name": "grunt-markupfileindex",
   "version": "1.0.0",
   "description": "grunt Markup File Index",
   "main": "Gruntfile.js",
@@ -9,23 +9,23 @@
   "dependencies": {
     "grunt": "~0.4.4",
     "chardet": "0.1.0",
-    "lodash": "^4.9.0"
+    "lodash": "^4.11.1"
   },
   "devDependencies": {
     "grunt": "~1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "~1.0.0",
-    "grunt-shell": "~1.2.1"
+    "grunt-shell": "~1.3.0"
   },
   "scripts": {
   },
   "repository": {
     "type": "git",
-    "url": "http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex.git"
+    "url": "https://github.com/chosungmin/grunt-markupfileindex.git"
   },
-  "author": "chosungmin <chosungmin.kr@gmail.com> (http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex/)",
+  "author": "chosungmin <chosungmin.kr@gmail.com> (https://github.com/chosungmin/grunt-markupfileindex/)",
   "bugs": {
-    "url": "http://gitlab.clus.org/chosungmin/gruntMarkupFileIndex/issues"
+    "url": "https://github.com/chosungmin/grunt-markupfileindex/issues"
   },
   "keywords": [
     "grunt",
