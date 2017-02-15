@@ -1,8 +1,8 @@
 /*
  * grunt-nts-uit-index
- * http://gitlab2.uit.nhncorp.com/grunt-plugins/grunt-nts-uit-index
+ * https://github.com/chosungmin/grunt-markupfileindex
  *
- * Copyright (c) 2014 chosungmin
+ * Copyright (c) 2016 chosungmin
  * Licensed under the MIT license.
  */
 
@@ -10,13 +10,12 @@
 
 module.exports = function(grunt) {
   var isWindows = process.platform === 'win32',
-      chardet = require('chardet'),
+      path = require('path'),
       _ = require('lodash');
 
   grunt.registerMultiTask('markupfileindex', 'Markup File Index', function() {
     var self = this,
         done = this.async(),
-        path = require('path'),
         options = this.options({
           show_date: this.show_date || false,
           filename: this.filename || '@index.html',
@@ -24,30 +23,52 @@ module.exports = function(grunt) {
           include_folder: this.include_folder || ['!$%^!@#$%'],
           file_sort: this.file_sort || 'asc',
           file_sort_key: this.file_sort_key || 'title',
-          group_sort: this.group_sort || 'asc'
+          group_sort: this.group_sort || 'asc',
+          path_replace: this.path_replace || null
         }),
         defaultGroupName = ['etc', 'includes'],
         outputGroupName = ['기타', 'Include Files'],
         saveFileList = [],
-        checkDestFolder = grunt.file.arePathsEquivalent(this.data.dest, this.data.cwd);
+        checkDestFolder = null;
 
     // 최종 파일은 파일리스트에서 제외
-    this.data.src.push(this.data.dest + options.filename);
+    this.data.files[0].src.push(this.data.files[0].dest + options.filename);
 
-    grunt.log.writeln("*Markup File Index 작성중*");
+    grunt.log.writeln("\n*Markup File Index 작성중*");
 
     this.files.forEach(function(filePair) {
       filePair.src.forEach(function(src) {
         var dest = unixifyPath(filePair.dest);
         src = unixifyPath(src);
 
+        checkDestFolder = grunt.file.arePathsEquivalent(filePair.orig.dest, filePair.orig.cwd)
+
         if(checkDestFolder){
-          dest = src.replace(self.data.dest, '');
+          if(!src.match(/^\.\//)) src = './' + src;
+          if(!filePair.orig.dest.match(/\/$/)) filePair.orig.dest = filePair.orig.dest + '/';
+
+          dest = src.replace(filePair.orig.dest, '');
         }else{
           dest = '../' + src;
         }
 
-        if(grunt.file.isDir(src) !== true && !grunt.file.arePathsEquivalent(path.join(self.data.cwd, options.filename), src)){
+        if(options.path_replace !== null){
+          var reg_exp_str = options.path_replace.split(','),
+              new_reg_exp = null,
+              replace_str = '';
+
+          if(reg_exp_str.length > 1){
+            new_reg_exp = new RegExp(reg_exp_str[0]);
+            replace_str = reg_exp_str[1];
+          }else{
+            new_reg_exp = new RegExp(reg_exp_str);
+            replace_str = '';
+          }
+
+          dest = dest.replace(new_reg_exp, replace_str);
+        }
+
+        if(grunt.file.isDir(src) !== true && !grunt.file.arePathsEquivalent(path.join(filePair.orig.cwd, options.filename), src)){
           getTitle(src, dest);
         }
       });
@@ -79,13 +100,8 @@ module.exports = function(grunt) {
           filename = src.split('/'),
           checkIncludeFolder = new RegExp('\/?' + (options.include_folder.toString()).replace(/,/g, '|') + '\/', 'g');
 
-      filename = (filename.length) ? filename[filename.length-1] : filename;
-
-      if(chardet.detectFileSync(src) === 'EUC-KR'){
-        fileContent = grunt.file.read(src, {encoding: 'euc-kr'});
-      }else{
-        fileContent = grunt.file.read(src);
-      }
+      filename = (filename.length) ? filename[filename.length-1] : filename ;
+      fileContent = grunt.file.read(src);
 
       //html 문법에서 title값 찾기
       title = fileContent.match(/<title>.*<\/title>/gi);
@@ -127,7 +143,7 @@ module.exports = function(grunt) {
     //인덱스 파일 생성
     function output(self){
       var tpl = grunt.file.read(__dirname + '/../tpl/tpl.html'),
-          destFilePath = path.join(unixifyPath(self.data.dest), options.filename),
+          destFilePath = path.join(unixifyPath(self.data.files[0].dest), options.filename),
           date = new Date(),
           html = [],
           saveTarget = 0,

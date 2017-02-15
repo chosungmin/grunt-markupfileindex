@@ -14,18 +14,21 @@ module.exports = function(grunt) {
     markupfileindex: {
       options: {
         show_date : true,
-        filename: '@test.html',
+        // filename: '@test.html',
         title:'테스트 마크업 산출물',
         include_folder : ['includes', 'inc', 'testInc'],
         file_sort : 'asc',
         file_sort_key : 'title',
-        group_sort : 'asc'
+        group_sort : 'asc',
+        path_replace : '',
       },
       index: {
-        expand : true,
-        cwd : 'test/',
-        src: ['**/*.{html,php}', '!**/node_modules/**/', '!**/.*/**'],
-        dest: 'test/'
+        files: [{
+          expand : true,
+          cwd : 'test/',
+          src: ['**/*.{html,php}', '!**/node_modules/**', '!**/.*/**'],
+          dest: 'test/'
+        }]
       }
     },
     shell: {

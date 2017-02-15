@@ -46,10 +46,12 @@ In your project's Gruntfile, add a section named `markupfileindex` to the data o
 grunt.initConfig({
   markupfileindex: {
     index: {
-      expand : true,
-      cwd : 'test/',
-      src: ['**/*.{html,php}', '!**/node_modules/**/', '!**/.*/**'],
-      dest: 'test/'
+      files: [{
+        expand : true,
+        cwd : 'test/',
+        src: ['**/*.{html,php}', '!**/node_modules/**', '!**/.*/**'],
+        dest: 'test/'
+      }]
     }
   }
 });
@@ -66,14 +68,17 @@ grunt.initConfig({
       include_folder : ['includes', 'inc', 'testInc'],
       file_sort : 'asc',
       file_sort_key : 'title',
-      group_sort : 'asc'
+      group_sort : 'asc',
+      path_replace : '^../',
     },
 
     index: {
-      expand : true,
-      cwd : 'test/',
-      src: ['**/*.{html,php}', '!**/node_modules/**/', '!**/.*/**'],
-      dest: 'test/'
+      files: [{
+        expand : true,
+        cwd : 'test/',
+        src: ['**/*.{html,php}', '!**/node_modules/**', '!**/.*/**'],
+        dest: 'test/'
+      }]
     }
   }
 });
@@ -127,3 +132,11 @@ Default value: `title`
 Value: `title | filename`
 
 파일 리스트 정렬 키(제목, 파일명 중 선택 중 선택)
+
+#### options.path_replace
+Type: `String`
+Default value: ``
+Value: `치환 정규표현식, 치환할 값`
+
+주소 치환 정규식 및 치환 값 설정
+예) '^../, '../../test'
