@@ -1,7 +1,7 @@
 {
   "name": "grunt-markupfileindex",
-  "version": "1.0.3",
-  "description": "grunt Markup File Index",
+  "version": "1.0.4",
+  "description": "Grunt Markup File Index",
   "main": "Gruntfile.js",
   "directories": {
     "test": "test"
@@ -29,6 +29,7 @@
   "keywords": [
     "grunt",
     "markup",
+    "html",
     "file",
     "index"
   ],
